@@ -1,0 +1,20 @@
+pipleline {
+agent any
+tools {
+terraform 'terraform 0.15.1'
+}
+
+stage('Git Checkout'){
+           git credentialsId: 'f624b038-da66-414c-8da6-72b1496373bc', url: 'https://github.com/azurenscorp/nginx-nscorp'
+       }
+
+stage('Terraform Init'){
+           sh 'terraform init'
+       }
+stage('Terraform Plan'){
+           sh 'terraform plan -out ibems.tfplan'
+       }
+
+stage('Terraform Apply'){
+           sh 'terraform apply ibems.tfplan'
+       }
